@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Store | Everyday style</title><link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="/">NOVA<span>STORE</span></a><nav><a href="/">Shop</a><a href="/cart">Cart <span class="cart-count" th:text="${cartCount}">0</span></a></nav></header>
+<section class="hero"><div><p class="eyebrow">NEW SEASON · NEW YOU</p><h1>Find your<br><span>everyday style.</span></h1><p class="hero-copy">Easy essentials, thoughtful details, and pieces you'll love to wear.</p><a class="primary-link" href="#products">Explore collection ↘</a></div><div class="hero-art"><div class="sun"></div><div class="hero-emoji">🛍️</div><div class="hero-note">STYLE THAT<br>FEELS LIKE YOU</div></div></section>
+<main id="products" class="main-content"><div class="section-heading"><div><p class="eyebrow">THE COLLECTION</p><h2>Shop the latest</h2></div><p class="muted" th:text="${products.size()} + ' products'">8 products</p></div>
+<form class="filters" action="/" method="get"><input name="q" type="search" placeholder="Search products or categories..." th:value="${q}"><select name="category"><option value="All" th:selected="${selectedCategory == 'All'}">All categories</option><option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}" th:selected="${selectedCategory == cat}"></option></select><button class="primary-button" type="submit">Search</button><a class="clear-link" href="/">Clear</a></form>
+<div class="product-grid" th:if="${!products.isEmpty()}"><article class="product-card" th:each="p : ${products}"><div class="product-art"><span class="product-emoji" th:text="${p.emoji}">👕</span><span class="category-tag" th:text="${p.category}">Category</span></div><div class="product-info"><h3 th:text="${p.name}">Product</h3><p th:text="${p.description}">Description</p><div class="product-bottom"><strong th:text="'₹' + ${#numbers.formatDecimal(p.price, 1, 2)}">₹499</strong><form th:action="@{/cart/add/{id}(id=${p.id})}" method="post"><button class="add-button" type="submit">+ Add</button></form></div></div></article></div>
+<div class="empty-state" th:if="${products.isEmpty()}"><div>🔎</div><h3>No products found</h3><p>Try another search or category.</p><a href="/">View all products</a></div>
+</main><footer> <span class="brand">NOVA<span>STORE</span></span><p>A beginner-friendly Java e-commerce demo · Built with Spring Boot</p></footer>
+</body></html>
